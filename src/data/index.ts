@@ -1,0 +1,11 @@
+export { DEFAULT_CONFIGURATION } from './defaults'
+export {
+  HULL_COLORS,
+  INTERIORS,
+  KITCHENS,
+  BEDROOMS,
+  WORKSHOPS,
+  ENGINES,
+  EQUIPMENT,
+  OPTIONS_BY_MODULE,
+} from './options'
