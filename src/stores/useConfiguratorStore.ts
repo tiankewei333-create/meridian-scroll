@@ -2,6 +2,26 @@ import { create } from 'zustand'
 import { DEFAULT_CONFIGURATION } from '../data/defaults'
 import type { YachtConfiguration } from '../types/sharedTypes'
 
+const STORAGE_KEY = 'ocean-craft-config'
+
+function readSavedConfig(): YachtConfiguration {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return { ...DEFAULT_CONFIGURATION }
+
+    const parsed = JSON.parse(raw) as Partial<YachtConfiguration>
+    return {
+      ...DEFAULT_CONFIGURATION,
+      ...parsed,
+      equipment: Array.isArray(parsed.equipment)
+        ? parsed.equipment
+        : DEFAULT_CONFIGURATION.equipment,
+    }
+  } catch {
+    return { ...DEFAULT_CONFIGURATION }
+  }
+}
+
 interface ConfiguratorState {
   config: YachtConfiguration
   /** Active UI / camera focus module */
@@ -20,14 +40,15 @@ interface ConfiguratorActions {
   selectEngine: (engine: string) => void
   toggleEquipment: (equipmentId: string) => void
   setActiveModule: (module: ConfiguratorState['activeModule']) => void
+  saveConfig: () => void
   resetConfig: () => void
 }
 
 export type ConfiguratorStore = ConfiguratorState & ConfiguratorActions
 
-export const useConfiguratorStore = create<ConfiguratorStore>((set) => ({
-  config: { ...DEFAULT_CONFIGURATION },
-  activeModule: null,
+export const useConfiguratorStore = create<ConfiguratorStore>((set, get) => ({
+  config: readSavedConfig(),
+  activeModule: 'hullColor',
 
   selectHull: (hullColor) =>
     set((s) => ({
@@ -80,9 +101,13 @@ export const useConfiguratorStore = create<ConfiguratorStore>((set) => ({
 
   setActiveModule: (activeModule) => set({ activeModule }),
 
+  saveConfig: () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(get().config))
+  },
+
   resetConfig: () =>
     set({
       config: { ...DEFAULT_CONFIGURATION },
-      activeModule: null,
+      activeModule: 'hullColor',
     }),
 }))
