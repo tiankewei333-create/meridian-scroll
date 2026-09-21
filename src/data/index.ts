@@ -1,4 +1,6 @@
-export { DEFAULT_CONFIGURATION } from './defaults'
+export { BASE_PRICE, DEFAULT_CONFIGURATION } from './defaults'
+export { STEPS } from './steps'
+export type { ConfigStep, MultiSelectStep, SingleSelectStep, StepAction, StepControl, StepId } from './steps'
 export {
   HULL_COLORS,
   INTERIORS,
