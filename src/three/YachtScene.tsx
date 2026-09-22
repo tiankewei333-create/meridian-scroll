@@ -179,7 +179,9 @@ function YachtModel() {
   ])
 
   return (
-    <group rotation={[0, Math.PI * 0.15, 0]}>
+    // Model bow originally faces -X (left). Rotate 180° so bow faces +X,
+    // matching camera presets (sunpad / cockpit).
+    <group rotation={[0, Math.PI * 1.15, 0]}>
       <primitive object={root} scale={scale} position={position} />
     </group>
   )
@@ -210,10 +212,10 @@ export function YachtScene() {
       <OrbitControls
         makeDefault
         enablePan={false}
-        minPolarAngle={Math.PI / 4}
+        minPolarAngle={0.15}
         maxPolarAngle={Math.PI / 2.05}
-        minDistance={3}
-        maxDistance={18}
+        minDistance={2.5}
+        maxDistance={20}
         target={[0, 0.8, 0]}
       />
       <StepCamera />
