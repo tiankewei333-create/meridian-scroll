@@ -1,35 +1,32 @@
 import type { ConfigOption, YachtConfiguration } from '../types/sharedTypes'
 import { BASE_PRICE } from './defaults'
 import {
-  BEDROOMS,
-  ENGINES,
-  EQUIPMENT,
+  ACCENT_STRIPES,
+  DECKS,
+  DETAILS,
   HULL_COLORS,
-  INTERIORS,
-  KITCHENS,
-  WORKSHOPS,
+  SUNPADS,
+  UPHOLSTERIES,
 } from './options'
 
 function optionPrice(options: readonly ConfigOption[], id: string): number {
   return options.find((option) => option.id === id)?.price ?? 0
 }
 
-/** Base price plus deltas for every selected option. Unknown ids count as 0. */
 export function getTotalPrice(config: YachtConfiguration): number {
-  const equipmentTotal = config.equipment.reduce(
-    (sum, id) => sum + optionPrice(EQUIPMENT, id),
+  const detailsTotal = config.details.reduce(
+    (sum, id) => sum + optionPrice(DETAILS, id),
     0,
   )
 
   return (
     BASE_PRICE +
     optionPrice(HULL_COLORS, config.hullColor) +
-    optionPrice(INTERIORS, config.interior) +
-    optionPrice(KITCHENS, config.kitchen) +
-    optionPrice(BEDROOMS, config.bedroom) +
-    optionPrice(WORKSHOPS, config.workshop) +
-    optionPrice(ENGINES, config.engine) +
-    equipmentTotal
+    optionPrice(ACCENT_STRIPES, config.accentStripe) +
+    optionPrice(SUNPADS, config.sunpad) +
+    optionPrice(DECKS, config.deck) +
+    optionPrice(UPHOLSTERIES, config.upholstery) +
+    detailsTotal
   )
 }
 

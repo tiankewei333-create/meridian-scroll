@@ -76,7 +76,10 @@ function MaterialOptions({
                 : 'border-line bg-white hover:border-brand/40'
             }`}
           >
-            <span className="block aspect-square rounded-lg bg-linear-to-br from-amber-100 to-amber-700/70" />
+            <span
+              className="block aspect-square rounded-lg border border-black/5"
+              style={{ backgroundColor: option.color ?? '#d1d5db' }}
+            />
             <span className="text-xs font-medium text-ink">{option.label}</span>
           </button>
         )
@@ -144,12 +147,11 @@ export function OptionPanel() {
   const activeModule = useConfiguratorStore((s) => s.activeModule)
   const config = useConfiguratorStore((s) => s.config)
   const selectHull = useConfiguratorStore((s) => s.selectHull)
-  const selectInterior = useConfiguratorStore((s) => s.selectInterior)
-  const selectKitchen = useConfiguratorStore((s) => s.selectKitchen)
-  const selectBedroom = useConfiguratorStore((s) => s.selectBedroom)
-  const selectWorkshop = useConfiguratorStore((s) => s.selectWorkshop)
-  const selectEngine = useConfiguratorStore((s) => s.selectEngine)
-  const toggleEquipment = useConfiguratorStore((s) => s.toggleEquipment)
+  const selectAccent = useConfiguratorStore((s) => s.selectAccent)
+  const selectSunpad = useConfiguratorStore((s) => s.selectSunpad)
+  const selectDeck = useConfiguratorStore((s) => s.selectDeck)
+  const selectUpholstery = useConfiguratorStore((s) => s.selectUpholstery)
+  const toggleDetail = useConfiguratorStore((s) => s.toggleDetail)
 
   if (!activeModule) {
     return (
@@ -173,16 +175,17 @@ export function OptionPanel() {
 
   const actions = {
     selectHull,
-    selectInterior,
-    selectKitchen,
-    selectBedroom,
-    selectWorkshop,
-    selectEngine,
-    toggleEquipment,
+    selectAccent,
+    selectSunpad,
+    selectDeck,
+    selectUpholstery,
+    toggleDetail,
   } as const
 
   const selectedId =
-    step.id === 'equipment' ? config.equipment : config[step.id as Exclude<StepId, 'equipment'>]
+    step.id === 'details'
+      ? config.details
+      : config[step.id as Exclude<StepId, 'details'>]
 
   const onSelect = (id: string) => {
     actions[step.action](id)
@@ -194,6 +197,8 @@ export function OptionPanel() {
         <p className="text-xs font-semibold tracking-widest text-muted uppercase">
           {stepIndex + 1}. {step.title}
         </p>
+        <p className="mt-1 text-xs text-muted">{step.description}</p>
+        <p className="mt-1 text-[11px] text-muted/80">{step.meshHint}</p>
       </div>
 
       <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5">

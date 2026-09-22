@@ -2,44 +2,60 @@ import { create } from 'zustand'
 import { DEFAULT_CONFIGURATION } from '../data/defaults'
 import type { YachtConfiguration } from '../types/sharedTypes'
 
-const STORAGE_KEY = 'ocean-craft-config'
+const STORAGE_KEY = 'ocean-craft-config-v3'
 
 function readSavedConfig(): YachtConfiguration {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return { ...DEFAULT_CONFIGURATION }
+    if (!raw) {
+      return {
+        ...DEFAULT_CONFIGURATION,
+        details: [...DEFAULT_CONFIGURATION.details],
+      }
+    }
 
     const parsed = JSON.parse(raw) as Partial<YachtConfiguration>
     return {
       ...DEFAULT_CONFIGURATION,
       ...parsed,
-      equipment: Array.isArray(parsed.equipment)
-        ? parsed.equipment
-        : DEFAULT_CONFIGURATION.equipment,
+      details: Array.isArray(parsed.details)
+        ? parsed.details
+        : [...DEFAULT_CONFIGURATION.details],
     }
   } catch {
-    return { ...DEFAULT_CONFIGURATION }
+    return {
+      ...DEFAULT_CONFIGURATION,
+      details: [...DEFAULT_CONFIGURATION.details],
+    }
   }
 }
 
+type ActiveModule =
+  | keyof Pick<
+      YachtConfiguration,
+      | 'hullColor'
+      | 'accentStripe'
+      | 'sunpad'
+      | 'deck'
+      | 'upholstery'
+      | 'details'
+    >
+  | null
+
 interface ConfiguratorState {
   config: YachtConfiguration
-  /** Active UI / camera focus module */
-  activeModule: keyof Pick<
-    YachtConfiguration,
-    'hullColor' | 'interior' | 'kitchen' | 'bedroom' | 'workshop' | 'engine' | 'equipment'
-  > | null
+  activeModule: ActiveModule
 }
 
 interface ConfiguratorActions {
   selectHull: (hullColor: string) => void
-  selectInterior: (interior: string) => void
-  selectKitchen: (kitchen: string) => void
-  selectBedroom: (bedroom: string) => void
-  selectWorkshop: (workshop: string) => void
-  selectEngine: (engine: string) => void
-  toggleEquipment: (equipmentId: string) => void
-  setActiveModule: (module: ConfiguratorState['activeModule']) => void
+  selectAccent: (accentStripe: string) => void
+  selectSunpad: (sunpad: string) => void
+  selectDeck: (deck: string) => void
+  selectUpholstery: (upholstery: string) => void
+  toggleDetail: (detailId: string) => void
+  setActiveModule: (module: ActiveModule) => void
+  applyConfig: (config: YachtConfiguration) => void
   saveConfig: () => void
   resetConfig: () => void
 }
@@ -56,50 +72,53 @@ export const useConfiguratorStore = create<ConfiguratorStore>((set, get) => ({
       activeModule: 'hullColor',
     })),
 
-  selectInterior: (interior) =>
+  selectAccent: (accentStripe) =>
     set((s) => ({
-      config: { ...s.config, interior },
-      activeModule: 'interior',
+      config: { ...s.config, accentStripe },
+      activeModule: 'accentStripe',
     })),
 
-  selectKitchen: (kitchen) =>
+  selectSunpad: (sunpad) =>
     set((s) => ({
-      config: { ...s.config, kitchen },
-      activeModule: 'kitchen',
+      config: { ...s.config, sunpad },
+      activeModule: 'sunpad',
     })),
 
-  selectBedroom: (bedroom) =>
+  selectDeck: (deck) =>
     set((s) => ({
-      config: { ...s.config, bedroom },
-      activeModule: 'bedroom',
+      config: { ...s.config, deck },
+      activeModule: 'deck',
     })),
 
-  selectWorkshop: (workshop) =>
+  selectUpholstery: (upholstery) =>
     set((s) => ({
-      config: { ...s.config, workshop },
-      activeModule: 'workshop',
+      config: { ...s.config, upholstery },
+      activeModule: 'upholstery',
     })),
 
-  selectEngine: (engine) =>
-    set((s) => ({
-      config: { ...s.config, engine },
-      activeModule: 'engine',
-    })),
-
-  toggleEquipment: (equipmentId) =>
+  toggleDetail: (detailId) =>
     set((s) => {
-      const has = s.config.equipment.includes(equipmentId)
-      const equipment = has
-        ? s.config.equipment.filter((id) => id !== equipmentId)
-        : [...s.config.equipment, equipmentId]
+      const has = s.config.details.includes(detailId)
+      const details = has
+        ? s.config.details.filter((id) => id !== detailId)
+        : [...s.config.details, detailId]
 
       return {
-        config: { ...s.config, equipment },
-        activeModule: 'equipment',
+        config: { ...s.config, details },
+        activeModule: 'details',
       }
     }),
 
   setActiveModule: (activeModule) => set({ activeModule }),
+
+  applyConfig: (config) =>
+    set({
+      config: {
+        ...DEFAULT_CONFIGURATION,
+        ...config,
+        details: [...config.details],
+      },
+    }),
 
   saveConfig: () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(get().config))
@@ -107,7 +126,10 @@ export const useConfiguratorStore = create<ConfiguratorStore>((set, get) => ({
 
   resetConfig: () =>
     set({
-      config: { ...DEFAULT_CONFIGURATION },
+      config: {
+        ...DEFAULT_CONFIGURATION,
+        details: [...DEFAULT_CONFIGURATION.details],
+      },
       activeModule: 'hullColor',
     }),
 }))
