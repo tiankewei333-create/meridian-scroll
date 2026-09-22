@@ -16,7 +16,8 @@ import {
 import { useConfiguratorStore } from '../stores'
 import { StepCamera } from './StepCamera'
 
-const YACHT_URL = '/models/yacht/small_yacht.glb?v=named-layers-v3'
+const YACHT_URL = '/models/yacht/small_yacht.compressed.glb?v=draco-webp-v1'
+const DRACO_PATH = '/draco/'
 const TARGET_SIZE = 6
 
 const UPHOLSTERY_NAMES = new Set([
@@ -120,7 +121,7 @@ function applyDetailVisibility(root: THREE.Object3D, enabledIds: string[]) {
 }
 
 function YachtModel() {
-  const { scene } = useGLTF(YACHT_URL)
+  const { scene } = useGLTF(YACHT_URL, DRACO_PATH)
   const config = useConfiguratorStore((s) => s.config)
 
   const hullColor =
@@ -187,7 +188,7 @@ function YachtModel() {
   )
 }
 
-useGLTF.preload(YACHT_URL)
+useGLTF.preload(YACHT_URL, DRACO_PATH)
 
 export function YachtScene() {
   return (
