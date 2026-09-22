@@ -17,13 +17,17 @@ export default function App() {
   }, [applyConfig])
 
   return (
-    <div className="flex h-full min-h-screen flex-col bg-white text-ink">
+    <div className="flex h-dvh max-h-dvh flex-col overflow-hidden bg-white text-ink">
       <ConfigHeader />
 
-      <div className="flex min-h-0 flex-1">
+      {/* Desktop: stage | steps | options. Mobile: stage on top, steps + options below. */}
+      <div className="flex min-h-0 flex-1 flex-col md:flex-row">
         <BoatStage />
-        <StepNav />
-        <OptionPanel />
+
+        <div className="flex h-[min(44vh,24rem)] shrink-0 flex-col border-t border-line md:h-auto md:min-h-0 md:w-auto md:flex-row md:border-t-0">
+          <StepNav />
+          <OptionPanel />
+        </div>
       </div>
 
       <ConfigFooter />

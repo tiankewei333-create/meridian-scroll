@@ -155,13 +155,13 @@ export function OptionPanel() {
 
   if (!activeModule) {
     return (
-      <aside className="flex w-80 shrink-0 flex-col border-l border-line bg-white">
-        <div className="border-b border-line px-5 py-4">
+      <aside className="flex min-h-0 flex-1 flex-col bg-white md:w-80 md:shrink-0 md:border-l md:border-line">
+        <div className="border-b border-line px-4 py-3 md:px-5 md:py-4">
           <p className="text-xs font-semibold tracking-widest text-muted uppercase">
             完成
           </p>
         </div>
-        <div className="flex flex-1 items-center px-5 py-5">
+        <div className="flex flex-1 items-center px-4 py-4 md:px-5 md:py-5">
           <p className="text-sm text-muted">
             配置已完成。可点「保存配置」保留当前选择，或从步骤栏继续修改。
           </p>
@@ -192,16 +192,16 @@ export function OptionPanel() {
   }
 
   return (
-    <aside className="flex w-80 shrink-0 flex-col border-l border-line bg-white">
-      <div className="border-b border-line px-5 py-4">
+    <aside className="flex min-h-0 flex-1 flex-col bg-white md:w-80 md:shrink-0 md:border-l md:border-line">
+      <div className="border-b border-line px-4 py-3 md:px-5 md:py-4">
         <p className="text-xs font-semibold tracking-widest text-muted uppercase">
           {stepIndex + 1}. {step.title}
         </p>
-        <p className="mt-1 text-xs text-muted">{step.description}</p>
-        <p className="mt-1 text-[11px] text-muted/80">{step.meshHint}</p>
+        <p className="mt-1 hidden text-xs text-muted sm:block">{step.description}</p>
+        <p className="mt-1 hidden text-[11px] text-muted/80 md:block">{step.meshHint}</p>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 md:px-5 md:py-5">
         {step.control === 'swatch' && (
           <SwatchOptions
             step={step}

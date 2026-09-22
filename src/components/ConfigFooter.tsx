@@ -36,25 +36,29 @@ export function ConfigFooter() {
   }
 
   return (
-    <footer className="flex h-16 shrink-0 items-center justify-between border-t border-line bg-white px-6">
-      <div>
-        <p className="text-[11px] tracking-widest text-muted uppercase">总价</p>
-        <p className="text-xl font-bold text-ink">{formatPrice(total)}</p>
+    <footer className="flex h-14 shrink-0 items-center justify-between gap-3 border-t border-line bg-white px-3 pb-[env(safe-area-inset-bottom)] md:h-16 md:px-6">
+      <div className="min-w-0">
+        <p className="text-[10px] tracking-widest text-muted uppercase md:text-[11px]">
+          总价
+        </p>
+        <p className="truncate text-lg font-bold text-ink md:text-xl">
+          {formatPrice(total)}
+        </p>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex shrink-0 items-center gap-2 md:gap-3">
         <button
           type="button"
           disabled={isFirst}
           onClick={goPrev}
-          className="rounded-lg border border-line px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-stage disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-lg border border-line px-3 py-2 text-sm font-medium text-ink transition-colors hover:bg-stage disabled:cursor-not-allowed disabled:opacity-40 md:px-4"
         >
           上一步
         </button>
         <button
           type="button"
           onClick={goNext}
-          className="rounded-lg bg-brand px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+          className="rounded-lg bg-brand px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark md:px-5"
         >
           {isDone ? '重新配置' : isLast ? '完成配置' : '下一步'}
         </button>

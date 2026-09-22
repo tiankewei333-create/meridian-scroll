@@ -63,7 +63,7 @@ export function BoatStage() {
 
   return (
     <section className="relative flex min-h-0 flex-1 flex-col bg-stage">
-      <div className="relative min-h-0 flex-1">
+      <div className="relative min-h-0 flex-1 touch-none">
         <StageLoadingOverlay />
         <StageErrorBoundary>
           <Canvas
@@ -82,12 +82,12 @@ export function BoatStage() {
         </StageErrorBoundary>
       </div>
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-6 z-10 text-center">
-        <p className="text-2xl font-semibold tracking-wide text-ink uppercase">
+      <div className="pointer-events-none absolute inset-x-0 bottom-3 z-10 px-3 text-center md:bottom-6">
+        <p className="text-lg font-semibold tracking-wide text-ink uppercase md:text-2xl">
           {model}
         </p>
-        <p className="mt-1 text-xs tracking-widest text-muted uppercase">
-          拖动旋转 · 切换步骤自动对焦
+        <p className="mt-1 text-[10px] tracking-widest text-muted uppercase md:text-xs">
+          单指旋转 · 双指缩放 · 切换步骤自动对焦
         </p>
       </div>
     </section>
