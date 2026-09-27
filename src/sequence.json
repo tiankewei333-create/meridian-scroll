@@ -1,0 +1,7 @@
+{
+  "scenes": [0, 0.25, 0.5, 0.75, 1],
+  "sets": {
+    "desktop": { "width": 1440, "height": 810, "frames": 181, "quality": 82, "cache": 72 },
+    "mobile": { "width": 640, "height": 1136, "frames": 121, "quality": 80, "cache": 40 }
+  }
+}

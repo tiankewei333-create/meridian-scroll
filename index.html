@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Meridian Chronograph — scroll-driven product story</title>
+    <meta
+      name="description"
+      content="An Apple-style image-sequence product story that moves one chapter per gesture on mouse wheels, trackpads and touch."
+    />
+    <meta name="theme-color" content="#07080b" />
+  </head>
+  <body>
+    <section class="stage" id="stage" aria-label="Meridian product story">
+      <canvas class="stage__canvas" aria-hidden="true"></canvas>
+      <div class="stage__scrim" aria-hidden="true"></div>
+      <p class="brand">MERIDIAN</p>
+
+      <div class="copy">
+        <article class="scene" data-scene="0">
+          <p class="eyebrow">Meridian Chronograph</p>
+          <h1>Time, engineered in layers.</h1>
+          <p class="body">Scroll, swipe or press ↓. Each gesture opens one layer of the watch.</p>
+        </article>
+        <article class="scene" data-scene="1">
+          <p class="eyebrow">01 — Crystal</p>
+          <h2>Sapphire, coated twice.</h2>
+          <p class="body">
+            A 2.1 mm domed crystal with anti-reflective treatment on both faces, so the dial reads clean in any light.
+          </p>
+        </article>
+        <article class="scene" data-scene="2">
+          <p class="eyebrow">02 — Movement</p>
+          <h2>Calibre M&#8209;01.</h2>
+          <p class="body">
+            212 components, a 4 Hz balance and 72 hours of power reserve, finished by hand and visible through the
+            caseback.
+          </p>
+        </article>
+        <article class="scene" data-scene="3">
+          <p class="eyebrow">03 — Case</p>
+          <h2>Grade 5 titanium.</h2>
+          <p class="body">Forged, brushed and polished by hand. 41 mm across, 11.8 mm thin, 40% lighter than steel.</p>
+        </article>
+        <article class="scene" data-scene="4">
+          <p class="eyebrow">Meridian Chronograph</p>
+          <h2>Reserve yours.</h2>
+          <p class="body">First edition of 500, delivered spring 2027.</p>
+          <div class="actions">
+            <button class="btn btn--primary" type="button" data-action="reserve">Reserve · from $4,200</button>
+            <button class="btn btn--ghost" type="button" data-action="explore">How this page works ↓</button>
+          </div>
+        </article>
+      </div>
+
+      <nav class="dots" aria-label="Chapters">
+        <button type="button" aria-label="Introduction"></button>
+        <button type="button" aria-label="Crystal"></button>
+        <button type="button" aria-label="Movement"></button>
+        <button type="button" aria-label="Case"></button>
+        <button type="button" aria-label="Reserve"></button>
+      </nav>
+
+      <div class="hint" aria-hidden="true"><span>Scroll</span><i></i></div>
+
+      <div class="loader" role="status" aria-label="Loading">
+        <div class="loader__bar"><i></i></div>
+        <span class="loader__label">Loading</span>
+      </div>
+    </section>
+
+    <main class="after" id="after">
+      <section class="intro reveal">
+        <p class="eyebrow">Behind the scroll</p>
+        <h2>One gesture, one chapter.</h2>
+        <p class="lede">
+          This page answers a common brief: an Apple-style image-sequence hero that feels smooth on a Mac trackpad but
+          stutters on a Windows mouse wheel in Chrome. The fix is not more smoothing. It is treating scroll as intent,
+          and keeping decoding off the critical path.
+        </p>
+      </section>
+
+      <section class="stats reveal" aria-label="Sequence stats">
+        <div><strong data-stat="frames">—</strong><span>frames in the <b data-stat="set">—</b> sequence</span></div>
+        <div><strong data-stat="size">—</strong><span>total download for all frames</span></div>
+        <div><strong data-stat="res">—</strong><span>frame resolution</span></div>
+        <div><strong data-stat="cache">—</strong><span>max decoded frames held in memory</span></div>
+      </section>
+
+      <section class="cards">
+        <article class="card reveal">
+          <h3>Input normalized per device</h3>
+          <p>
+            Pixel deltas from Chrome, line deltas from Firefox, trackpad inertia and touch drags are reduced to one
+            direction. A pause, a reversal or a fresh swipe starts a new gesture; inertia tails are ignored. One click
+            or one swipe moves exactly one chapter.
+          </p>
+        </article>
+        <article class="card reveal">
+          <h3>Fixed-time transitions</h3>
+          <p>
+            Each chapter change is a GSAP tween of the frame index with a fixed duration and easing, so playback speed
+            no longer depends on whether the visitor has a 120 Hz trackpad or a notched mouse.
+          </p>
+        </article>
+        <article class="card reveal">
+          <h3>Bounded decode window</h3>
+          <p>
+            Frames download as compressed WebP and are decoded with <code>createImageBitmap</code> only around the
+            current chapter. Memory stays flat instead of holding hundreds of full-size bitmaps, which is what crashes
+            iOS Safari.
+          </p>
+        </article>
+        <article class="card reveal">
+          <h3>Sized for the screen</h3>
+          <p>
+            Landscape screens load a 1440×810 sequence; portrait phones load a lighter, re-composed 640×1136 sequence.
+            The canvas never allocates more pixels than the frames contain, which matters on 150% scaled Windows
+            laptops.
+          </p>
+        </article>
+        <article class="card reveal">
+          <h3>Smooth scroll where it helps</h3>
+          <p>
+            The hero owns input while it is on screen. After the last chapter it hands control to Lenis, and
+            ScrollTrigger drives the reveals here. Scroll back to the top and the hero picks up at its last chapter.
+          </p>
+        </article>
+        <article class="card reveal">
+          <h3>Measurable on real devices</h3>
+          <p>
+            Open <a href="?debug">?debug</a> for a live overlay with FPS, requested and drawn frame, decoded cache size
+            and the detected input type.
+          </p>
+        </article>
+      </section>
+
+      <footer class="footer reveal">
+        <p>Meridian is a fictional brand. Frames are rendered procedurally for this demo. Built with GSAP, Lenis and Canvas 2D.</p>
+        <button class="link" type="button" data-action="top">Back to top ↑</button>
+      </footer>
+    </main>
+
+    <div class="hud" hidden></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

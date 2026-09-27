@@ -1,0 +1,7 @@
+node_modules
+dist
+.preview
+.wrangler
+public/frames
+src/frames.generated.json
+.idea
